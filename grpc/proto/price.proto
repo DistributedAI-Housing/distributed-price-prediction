@@ -1,0 +1,28 @@
+//Déclaration de la syntaxe
+syntax = "proto3";
+
+//Définition du package
+package realestate;
+
+//Définition du service gRPC
+service PriceService {
+  rpc PredictPrice (PriceRequest) returns (PriceResponse);
+}
+
+//entrée du modèle
+message PriceRequest {
+  
+  string proprety_type = 1; // House / Apartment
+  float surface = 2;        // Surface en m²
+  int32 bedroom = 3;          // Nombre de chambres
+  int32 bathroom = 4;         // Nombre de salles de bain
+  string address = 5;          // Adresse complète
+  string city = 6;             // Casablanca, Marrakech...
+  string principale = 7;       // Région
+}
+
+//sortie du modèle
+message PriceResponse {
+  float price = 1;             // Prix prédit en dh
+  string message = 2;          // "ok"
+}
