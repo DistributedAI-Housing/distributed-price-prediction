@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package api;
+
+/* ===================== AUTH ===================== */
+
+service AuthService {
+  rpc Login(LoginRequest) returns (AuthResponse);
+  rpc Signup(SignupRequest) returns (AuthResponse);
+}
+
+/* ===================== LOGIN ===================== */
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+/* ===================== SIGNUP ===================== */
+
+message SignupRequest {
+  string name = 1;
+  string email = 2;
+  string password = 3;
+  string confirm_password = 4;
+
+  // Photo de profil (optionnelle)
+  bytes profile_picture = 5;
+  string profile_picture_name = 6;
+}
+
+/* ===================== RESPONSE ===================== */
+
+message AuthResponse {
+  bool success = 1;
+  string message = 2;
+  string token = 3; // JWT
+}
+
+/* ===================== USER PROFILE ===================== */
+
+service UserService {
+  // Récupérer le profil et l'historique  d’un utilisateur
+  rpc GetProfile(UserProfileRequest) returns (UserProfileResponse);
+  rpc GetHistory(UserHistoryRequest) returns (HistoryResponse);
+}
+
+message UserProfileRequest {
+  // Aucun champ nécessaire, le user_id sera pris depuis JWT
+}
+
+message UserProfileResponse {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+   string profile_image_path = 4; // Chemin vers l'image
+   }
+
+message UserHistoryRequest {}
+
+/* ===================== PRICE PREDICTION ===================== */
+
+service PriceService {
+  rpc PredictPrice (PriceRequest) returns (PriceResponse);
+}
+
+
+message PriceRequest {
+  
+  string proprety_type = 1; // House / Apartment
+  double surface = 2;        // Surface en m²
+  int32 bedroom = 3;          // Nombre de chambres
+  int32 bathroom = 4;         // Nombre de salles de bain
+  string address = 5;          // Adresse complète
+  string city = 6;             // Casablanca, Marrakech...
+  string principale = 7;       // Région
+}
+message PriceResponse {
+ bool success = 1;
+  double price = 2;           // Prix prédit en DH
+  string message = 3;         // "Prediction successful"
+}
+
+
+message PredictionRecord {
+  string proprety_type = 1;
+  double surface = 2;
+  int32 bedroom = 3;
+  int32 bathroom = 4;
+  double price = 5;
+  string address = 6;
+  string city = 7;
+  string principale = 8;
+  string created_at = 9;
+}
+
+message HistoryResponse {
+  repeated PredictionRecord predictions = 1;
+}

@@ -1,0 +1,9 @@
+{
+    "python.analysis.extraPaths": [
+        "./grpc/proto",
+        "./grpc/server",
+        "./grpc/server/model"
+    ],
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python-envs.pythonProjects": []
+}
