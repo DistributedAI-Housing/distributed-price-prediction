@@ -1,66 +1,103 @@
-import sys
+# =============================
+# Imports & path
+# =============================
 import os
+import sys
 import grpc
+import jwt
+import time
 
+# Ajouter grpc/ au PYTHONPATH pour trouver proto
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
-from proto import user_pb2, user_pb2_grpc
-from proto import price_pb2, price_pb2_grpc
+from proto import api_pb2, api_pb2_grpc
 
-# Connexion au serveur
-channel = grpc.insecure_channel("localhost:50051")
-user_stub = user_pb2_grpc.UserServiceStub(channel)
-price_stub = price_pb2_grpc.PriceServiceStub(channel)
+# =============================
+# Configuration
+# =============================
+SERVER_ADDRESS = "localhost:50051"
+SECRET_KEY = "raron"   # doit être le même que dans server.py
 
-# 1️⃣ Inscription
-try:
-    response = user_stub.RegisterUser(user_pb2.RegisterRequest(
-        nom="Rim",
-        prenom="Bari",
-        email="rim@example.com",
-        password="123456",
-        photo="photo_url"
-    ))
-    print(response.message)
-except grpc.RpcError as e:
-    print("Erreur inscription:", e.details())
+# =============================
+# Générer un JWT (simulation login)
+# =============================
+def generate_token(user_id=1):
+    payload = {
+        "user_id": user_id,
+        "iat": int(time.time()),
+        "exp": int(time.time()) + 3600  # 1 heure
+    }
+    token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+    return token
 
-# 2️⃣ Login
-try:
-    response = user_stub.LoginUser(user_pb2.LoginRequest(
-        email="rim@example.com",
-        password="123456"
-    ))
-    print(response.message)
-    token = response.token
-except grpc.RpcError as e:
-    print("Erreur login:", e.details())
-    exit()
+# =============================
+# Client gRPC
+# =============================
+def main():
+    print("🔌 Connexion au serveur gRPC...")
+    channel = grpc.insecure_channel(SERVER_ADDRESS)
+    price_stub = api_pb2_grpc.PriceServiceStub(channel)
+    user_stub  = api_pb2_grpc.UserServiceStub(channel)
+    # Générer token JWT
+    token = generate_token(user_id=1)
+    metadata = [("authorization", token)]
 
-# Metadata pour authentification
-metadata = [("authorization", token)]
+    # =============================
+    # 1️⃣ Prédiction de prix
+    # =============================
+    try:
+        print("📊 Envoi de la requête PredictPrice...")
+        request = api_pb2.PriceRequest(
+            proprety_type="Apartment",
+            surface=106.0,
+            bedroom=2,
+            bathroom =1,
+            address="Rabat" ,
+            city= "Rabat" ,
+            principale= "Rabat-Salé-Kénitra",
+            
+        )
 
-# 3️⃣ Prédiction
-try:
-    pred = price_stub.PredictPrice(price_pb2.PriceRequest(
-        proprety_type="House",
-        surface=120.0,
-        bedroom=3,
-        bathroom=2,
-        address="123 Rue Exemple",
-        city="Casablanca",
-        principale="Centre"
-    ), metadata=metadata)
-    print("Prix prédit:", pred.price)
-except grpc.RpcError as e:
-    print("Erreur prédiction:", e.details())
+        response = price_stub.PredictPrice(request, metadata=metadata)
+        print("✅ Prix prédit :", response.price)
 
-# 4️⃣ Récupérer historique
-try:
-    history_resp = user_stub.GetHistory(user_pb2.HistoryRequest(token=token))
-    print("Historique prédictions:")
-    for h in history_resp.history:
-        print(h.proprety_type, h.surface, h.price, h.date)
-except grpc.RpcError as e:
-    print("Erreur historique:", e.details())
+    except grpc.RpcError as e:
+        print("❌ Erreur PredictPrice :", e.details())
+        return
+
+    # =============================
+    # 2️⃣ Historique des prédictions
+    # =============================
+    try:
+        print("\n📜 Récupération de l'historique...")
+        history_request = api_pb2.UserHistoryRequest()
+
+        history_response = user_stub.GetHistory(
+            history_request,
+            metadata=metadata
+        )
+        if not history_response.predictions:
+            print("ℹ️ Aucun historique trouvé")
+        else:
+            for h in history_response.predictions:
+                print(
+                    f"- {h.proprety_type} | "
+                    f"- {h.surface} m² | "
+                    f"{h.bedroom} chambres | "
+                    f"{h.bathroom} WC | "
+                    f"{h.address} Addresse  | "
+                    f"{h.city} Ville | "
+                    f"{h.principale} Region | "
+                    f"Prix: {h.price} | "
+                    f"Date: {h.created_at}"
+                )
+
+    except grpc.RpcError as e:
+        print("❌ Erreur GetHistory :", e.details())
+
+# =============================
+# Main
+# =============================
+if __name__ == "__main__":
+    main()
