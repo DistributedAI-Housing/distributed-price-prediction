@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package ChadWsqot;
+
+// Définition du service
+service ChadWsqot {
+  rpc Concat (Attribut) returns (google.protobuf.Empty);
+  
+}
+
+// Message envoyé par le client
+message Attribut {
+  string a = 1;
+  string b = 2;
+}

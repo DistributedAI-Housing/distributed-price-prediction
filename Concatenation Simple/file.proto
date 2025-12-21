@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package Concatenation;
+
+// Définition du service
+service Concatenation {
+  rpc Concat (Attribut) returns (google.protobuf.Empty);
+  
+  // Méthode RPC qui reçoit deux nombres et renvoie leur somme
+  //rpc Concat (Attribut) returns (Result);
+}
+
+// Message envoyé par le client
+message Attribut {
+  string a = 1;
+  string b = 2;
+}
+
+// Message renvoyé par le serveur
+//message Result {
+//  string concat = 1;
+//}
