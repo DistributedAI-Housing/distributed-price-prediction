@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package FinalPrice;
+
+// Définition du service
+service Prediction {
+  rpc Pred (Featers) returns (Prix);
+}
+
+// Message envoyé par le client
+message Featers {
+  string proprety_type = 1;
+  int64 surface = 2;
+  int64 bedroom = 3;
+  int64 bathroom = 4;
+  string address = 5;
+  string city = 6;
+  string principale = 7;
+}
+
+message Prix {
+  double prix = 1;
+}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package Prediction;
+
+// Définition du service
+service Prediction {
+  rpc Prd (Attribut) returns (Result);
+}
+
+// Message envoyé par le client
+message Attribut {
+  string proprety_type = 1;
+  int64 surface = 2;
+  int64 bedroom = 3;
+  int64 bathroom = 4;
+  string address = 5;
+  string city = 6;
+  string principale = 7;
+}
+
+message Result {
+  double prix = 1;
+}
