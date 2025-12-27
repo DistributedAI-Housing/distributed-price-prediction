@@ -1,0 +1,151 @@
+/* --- VARIABLES ET GÉNÉRALITÉS --- */
+:root {
+    --primary-blue: #1C2E4A; /* Bleu foncé de la barre de navigation et du texte principal */
+    --secondary-blue: #2A4061; /* Bleu légèrement plus clair */
+    --accent-blue: #007bff; /* Bleu d'accentuation pour les boutons et liens */
+    --text-light: #f8f9fa;
+    --text-dark: #343a40;
+    --gradient-start: #1C2E4A;
+    --gradient-end: #0A1423;
+    --card-bg: #ffffff;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+}
+.logo-img{
+    height: 30;
+    width: 30;
+}
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-dark);
+    padding-top: 56px; /* Espace pour la navbar fixe */
+}
+
+/* Classes Bootstrap personnalisées */
+.navbar-custom {
+    background-color: var(--primary-blue) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.text-primary-custom {
+    color: var(--primary-blue) !important;
+}
+
+.btn-primary-custom {
+    background-color: var(--accent-blue) !important;
+    border-color: var(--accent-blue) !important;
+    color: white !important;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-primary-custom:hover {
+    background-color: #0056b3 !important;
+    border-color: #0056b3 !important;
+    transform: translateY(-1px);
+}
+
+.btn-secondary-custom {
+    background-color: var(--secondary-blue) !important;
+    border-color: var(--secondary-blue) !important;
+    color: white !important;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+.btn-secondary-custom:hover {
+    background-color: #1a2a43 !important;
+    border-color: #1a2a43 !important;
+}
+
+/* --- PAGES AUTH (Login/Signup) --- */
+.auth-body {
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0 !important; /* Retire l'espace de la navbar */
+}
+.auth-body .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* --- HOME PAGE / HERO --- */
+.hero-section {
+    position: relative;
+    height: 70vh; 
+    background-color: var(--primary-blue);
+    overflow: hidden;
+    /* Image de fond pour le hero (placeholder) */
+    background-image: url('https://via.placeholder.com/1920x800/2A4061/FFFFFF?text=Modern+Building+View'); 
+    background-size: cover;
+    background-position: center;
+}
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Overlay sombre */
+    z-index: 1;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding-top: 5rem;
+}
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    color: #f8f9fa;
+}
+
+/* --- PROFILE PAGE --- */
+.profile-header {
+    background-color: var(--secondary-blue);
+    color: var(--text-light);
+    padding: 30px 0;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.profile-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--accent-blue);
+}
+.history-card {
+    background-color: var(--card-bg);
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* --- PREDICT PAGE --- */
+.form-card {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px var(--shadow-light);
+}
+
+.prediction-result-card {
+    background: linear-gradient(45deg, var(--primary-blue), var(--secondary-blue));
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajustements Responsive */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+}
