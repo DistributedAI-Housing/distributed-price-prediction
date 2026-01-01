@@ -3,8 +3,7 @@
 import grpc
 import warnings
 
-from . import api_pb2 as api__pb2
-
+from backend.proto import api_pb2 as backend_dot_proto_dot_api__pb2
 
 GRPC_GENERATED_VERSION = '1.76.0'
 GRPC_VERSION = grpc.__version__
@@ -19,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + ' but the generated code in api_pb2_grpc.py depends on'
+        + ' but the generated code in backend/proto/api_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -39,13 +38,13 @@ class AuthServiceStub(object):
         """
         self.Login = channel.unary_unary(
                 '/api.AuthService/Login',
-                request_serializer=api__pb2.LoginRequest.SerializeToString,
-                response_deserializer=api__pb2.AuthResponse.FromString,
+                request_serializer=backend_dot_proto_dot_api__pb2.LoginRequest.SerializeToString,
+                response_deserializer=backend_dot_proto_dot_api__pb2.AuthResponse.FromString,
                 _registered_method=True)
         self.Signup = channel.unary_unary(
                 '/api.AuthService/Signup',
-                request_serializer=api__pb2.SignupRequest.SerializeToString,
-                response_deserializer=api__pb2.AuthResponse.FromString,
+                request_serializer=backend_dot_proto_dot_api__pb2.SignupRequest.SerializeToString,
+                response_deserializer=backend_dot_proto_dot_api__pb2.AuthResponse.FromString,
                 _registered_method=True)
 
 
@@ -71,13 +70,13 @@ def add_AuthServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Login': grpc.unary_unary_rpc_method_handler(
                     servicer.Login,
-                    request_deserializer=api__pb2.LoginRequest.FromString,
-                    response_serializer=api__pb2.AuthResponse.SerializeToString,
+                    request_deserializer=backend_dot_proto_dot_api__pb2.LoginRequest.FromString,
+                    response_serializer=backend_dot_proto_dot_api__pb2.AuthResponse.SerializeToString,
             ),
             'Signup': grpc.unary_unary_rpc_method_handler(
                     servicer.Signup,
-                    request_deserializer=api__pb2.SignupRequest.FromString,
-                    response_serializer=api__pb2.AuthResponse.SerializeToString,
+                    request_deserializer=backend_dot_proto_dot_api__pb2.SignupRequest.FromString,
+                    response_serializer=backend_dot_proto_dot_api__pb2.AuthResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -107,8 +106,8 @@ class AuthService(object):
             request,
             target,
             '/api.AuthService/Login',
-            api__pb2.LoginRequest.SerializeToString,
-            api__pb2.AuthResponse.FromString,
+            backend_dot_proto_dot_api__pb2.LoginRequest.SerializeToString,
+            backend_dot_proto_dot_api__pb2.AuthResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -134,8 +133,8 @@ class AuthService(object):
             request,
             target,
             '/api.AuthService/Signup',
-            api__pb2.SignupRequest.SerializeToString,
-            api__pb2.AuthResponse.FromString,
+            backend_dot_proto_dot_api__pb2.SignupRequest.SerializeToString,
+            backend_dot_proto_dot_api__pb2.AuthResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -160,13 +159,13 @@ class UserServiceStub(object):
         """
         self.GetProfile = channel.unary_unary(
                 '/api.UserService/GetProfile',
-                request_serializer=api__pb2.UserProfileRequest.SerializeToString,
-                response_deserializer=api__pb2.UserProfileResponse.FromString,
+                request_serializer=backend_dot_proto_dot_api__pb2.UserProfileRequest.SerializeToString,
+                response_deserializer=backend_dot_proto_dot_api__pb2.UserProfileResponse.FromString,
                 _registered_method=True)
         self.GetHistory = channel.unary_unary(
                 '/api.UserService/GetHistory',
-                request_serializer=api__pb2.UserHistoryRequest.SerializeToString,
-                response_deserializer=api__pb2.HistoryResponse.FromString,
+                request_serializer=backend_dot_proto_dot_api__pb2.UserHistoryRequest.SerializeToString,
+                response_deserializer=backend_dot_proto_dot_api__pb2.HistoryResponse.FromString,
                 _registered_method=True)
 
 
@@ -193,13 +192,13 @@ def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GetProfile': grpc.unary_unary_rpc_method_handler(
                     servicer.GetProfile,
-                    request_deserializer=api__pb2.UserProfileRequest.FromString,
-                    response_serializer=api__pb2.UserProfileResponse.SerializeToString,
+                    request_deserializer=backend_dot_proto_dot_api__pb2.UserProfileRequest.FromString,
+                    response_serializer=backend_dot_proto_dot_api__pb2.UserProfileResponse.SerializeToString,
             ),
             'GetHistory': grpc.unary_unary_rpc_method_handler(
                     servicer.GetHistory,
-                    request_deserializer=api__pb2.UserHistoryRequest.FromString,
-                    response_serializer=api__pb2.HistoryResponse.SerializeToString,
+                    request_deserializer=backend_dot_proto_dot_api__pb2.UserHistoryRequest.FromString,
+                    response_serializer=backend_dot_proto_dot_api__pb2.HistoryResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -229,8 +228,8 @@ class UserService(object):
             request,
             target,
             '/api.UserService/GetProfile',
-            api__pb2.UserProfileRequest.SerializeToString,
-            api__pb2.UserProfileResponse.FromString,
+            backend_dot_proto_dot_api__pb2.UserProfileRequest.SerializeToString,
+            backend_dot_proto_dot_api__pb2.UserProfileResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -256,8 +255,8 @@ class UserService(object):
             request,
             target,
             '/api.UserService/GetHistory',
-            api__pb2.UserHistoryRequest.SerializeToString,
-            api__pb2.HistoryResponse.FromString,
+            backend_dot_proto_dot_api__pb2.UserHistoryRequest.SerializeToString,
+            backend_dot_proto_dot_api__pb2.HistoryResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -282,8 +281,8 @@ class PriceServiceStub(object):
         """
         self.PredictPrice = channel.unary_unary(
                 '/api.PriceService/PredictPrice',
-                request_serializer=api__pb2.PriceRequest.SerializeToString,
-                response_deserializer=api__pb2.PriceResponse.FromString,
+                request_serializer=backend_dot_proto_dot_api__pb2.PriceRequest.SerializeToString,
+                response_deserializer=backend_dot_proto_dot_api__pb2.PriceResponse.FromString,
                 _registered_method=True)
 
 
@@ -303,8 +302,8 @@ def add_PriceServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'PredictPrice': grpc.unary_unary_rpc_method_handler(
                     servicer.PredictPrice,
-                    request_deserializer=api__pb2.PriceRequest.FromString,
-                    response_serializer=api__pb2.PriceResponse.SerializeToString,
+                    request_deserializer=backend_dot_proto_dot_api__pb2.PriceRequest.FromString,
+                    response_serializer=backend_dot_proto_dot_api__pb2.PriceResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -334,8 +333,8 @@ class PriceService(object):
             request,
             target,
             '/api.PriceService/PredictPrice',
-            api__pb2.PriceRequest.SerializeToString,
-            api__pb2.PriceResponse.FromString,
+            backend_dot_proto_dot_api__pb2.PriceRequest.SerializeToString,
+            backend_dot_proto_dot_api__pb2.PriceResponse.FromString,
             options,
             channel_credentials,
             insecure,

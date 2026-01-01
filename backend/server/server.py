@@ -18,10 +18,16 @@ from pandas import DataFrame
 
 
 # Ajouter grpc/ au PYTHONPATH pour trouver proto
-ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(ROOT_DIR)
+#ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#sys.path.append(ROOT_DIR)
 
-from proto import api_pb2, api_pb2_grpc
+# --- NOUVEAU CODE (CORRECT) ---
+# On remonte de 3 crans pour atteindre la racine du projet (D:\Project\distributed-price-prediction)
+current_dir = os.path.dirname(os.path.abspath(__file__)) # Dans backend/server
+backend_dir = os.path.dirname(current_dir)               # Dans backend
+project_root = os.path.dirname(backend_dir)
+sys.path.append(project_root)
+from backend.proto import api_pb2, api_pb2_grpc
 
 print("✅ server.py chargé")
 
